@@ -2,10 +2,12 @@ import os
 from torchvision import datasets, transforms
 
 
-def load_cifar100_data(data_dir: str) -> tuple:
+def load_cifar100_data(data_dir: str, transform=None) -> tuple:
     if not os.path.exists(os.path.join(data_dir, 'cifar-100-python')):
         raise FileNotFoundError(f"The CIFAR-100 dataset is not found in '{data_dir}'. Please download it first.")
-    transform = transforms.Compose([transforms.ToTensor()])
+
+    if transform is None:
+        transform = transforms.Compose([transforms.ToTensor()])
 
     train_dataset = datasets.CIFAR100(root=data_dir, train=True, download=False, transform=transform)
     test_dataset = datasets.CIFAR100(root=data_dir, train=False, download=False, transform=transform)
